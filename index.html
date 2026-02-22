@@ -4,83 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Birthday Surprise 🎉</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #1e1e2f, #2b2b45);
-        font-family: 'Segoe UI', sans-serif;
-        overflow: hidden;
-        color: white;
-        text-align: center;
-    }
+.main-title {
+    font-size: 48px;
+    margin-bottom: 10px;
+    font-family: 'Dancing Script', cursive;
+    background: linear-gradient(45deg, #ff8fb1, #ff4e73);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 5px 20px rgba(255, 78, 115, 0.4);
+}
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #2b1055, #0f0c29);
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
 
-    .container {
-        position: relative;
-    }
+.container {
+    position: relative;
+display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-    .gift-box {
-        width: 150px;
-        height: 150px;
-        background: #ff4d6d;
-        position: relative;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: transform 0.6s ease;
-        margin: auto;
-    }
+.gift {
+    position: relative;
+    width: 160px;
+    height: 140px;
+    cursor: pointer;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    margin: auto;
+}
 
-    .gift-box::before {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 20px;
-        background: #ff8fa3;
-        top: -20px;
-        border-radius: 10px 10px 0 0;
-    }
+.box {
+    width: 160px;
+    height: 110px;
+    background: linear-gradient(145deg, #ff4e73, #ff2e63);
+    border-radius: 12px;
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
 
-    .gift-box::after {
-        content: "";
-        position: absolute;
-        width: 20px;
-        height: 100%;
-        background: #ff8fa3;
-        left: 50%;
-        transform: translateX(-50%);
-    }
+.lid {
+    width: 170px;
+    height: 40px;
+    background: linear-gradient(145deg, #ff7b93, #ff4e73);
+    border-radius: 12px;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    transition: transform 0.6s ease;
+}
 
-    .gift-box.open {
-        transform: scale(0);
-    }
+/* Ribbon */
+.box::before,
+.lid::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    background: white;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
-    .message {
-        font-size: 24px;
-        width: 300px;
-        margin-top: 20px;
-        min-height: 80px;
-    }
+.gift.open {
+    opacity: 0;
+    transform: scale(0.8);
+}
 
-    canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-    }
+.gift.open .lid {
+    transform: translateY(-60px) rotate(-10deg);
+}
 
-    button {
-        margin-top: 15px;
-        padding: 10px 20px;
-        border: none;
-        background: #ff4d6d;
-        color: white;
-        border-radius: 20px;
-        cursor: pointer;
-    }
+.message {
+    font-family: 'Dancing Script', cursive;
+    font-size: 26px;
+    width: 340px;
+    margin-top: 25px;
+    min-height: 100px;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    text align: centre;
+}
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    background: #ff4d6d;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
 </style>
 </head>
 
@@ -89,28 +120,27 @@
 <canvas id="confetti"></canvas>
 
 <div class="container">
-    <div id="gift" class="gift-box"></div>
-    <div id="message" class="message"></div>
-    <button id="musicBtn" style="display:none;">Play Music 🎵</button>
-</div>
+    <div class="gift" id="gift">
+        <div class="lid"></div>
+        <div class="box"></div>
+    </div>
+<h1 class="main-title">Happy Birthday Gunkirti 🎉</h1>
+<div id="message" class="message"></div>
+   </div>
 
 <audio id="bgMusic" src="song.mp3"></audio>
+
 <script>
 const gift = document.getElementById("gift");
 const message = document.getElementById("message");
 const music = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
 
-const text ="Happy Birthday to the one person who has seen me at my worst and still chose to stay.💕 You’ve handled my moods, my ghosting phases, my unread messages, and my missed calls — and somehow never made me feel guilty for being me.🤗\n\nI honestly don’t say this enough, but I’m so grateful you’re in my life. ❤️Your sarcasm, your patience, your constant presence — it all means more than you know.🫶\n\nI’m damn sure no matter how dramatic I get, you’re not going anywhere… and that’s my favorite part about us.🥰\n\nStay the same. Stay annoying. Stay mine (in a best-friend way). 🤍";gift.addEventListener("click", () => {
+const text = "Happy Birthday to the one person who has seen me at my worst and still chose to stay🥰. You’ve handled my moods, my ghosting phases, my unread messages, and my missed calls — and somehow never made me feel guilty for being me🫶.\n\nI honestly don’t say this enough, but I’m so grateful you’re in my life😭💕. Your sarcasm, your patience, your constant presence — it all means more than you know🤞.\n\nI’m damn sure no matter how dramatic I get, you’re not going anywhere… and that’s my favorite part about us🤗.\n\nStay the same. Stay annoying. Stay mine (in a best-friend way). 🤍";
+gift.addEventListener("click", () => {
     gift.classList.add("open");
     startConfetti();
     typeWriter();
-    musicBtn.style.display = "inline-block";
-});
-
-musicBtn.addEventListener("click", () => {
     music.play();
-    musicBtn.style.display = "none";
 });
 
 function typeWriter() {
@@ -119,7 +149,7 @@ function typeWriter() {
         if (i < text.length) {
             message.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
             i++;
-            setTimeout(typing, 70);
+            setTimeout(typing, 60);
         }
     }
     typing();
@@ -140,7 +170,7 @@ function startConfetti() {
             y: Math.random() * canvas.height - canvas.height,
             r: Math.random() * 6 + 2,
             d: Math.random() * 100,
-            color: `hsl(${Math.random() * 360}, 100%, 50%)`
+            color: `hsl(${Math.random() * 40 + 330}, 70%, 70%)`
         });
     }
     draw();
@@ -148,9 +178,9 @@ function startConfetti() {
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    confetti.forEach((c, i) => {
+    confetti.forEach((c) => {
         ctx.beginPath();
-        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
         ctx.fillStyle = c.color;
         ctx.fill();
     });
@@ -161,9 +191,7 @@ function draw() {
 function update() {
     confetti.forEach((c) => {
         c.y += Math.cos(c.d) + 3;
-        if (c.y > canvas.height) {
-            c.y = -10;
-        }
+        if (c.y > canvas.height) c.y = -10;
     });
 }
 </script>
